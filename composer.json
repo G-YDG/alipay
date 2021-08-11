@@ -8,8 +8,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "ext-simplexml": "*"
+        "php": ">=7.0"
     },
     "license": "MIT",
     "autoload": {

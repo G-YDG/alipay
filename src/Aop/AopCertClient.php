@@ -314,7 +314,6 @@ class AopCertClient
      **/
     public function rsaDecrypt($data, $rsaPrivateKeyPem, $charset)
     {
-
         if ($this->checkEmpty($this->rsaPrivateKeyFilePath)) {
             //读字符串
             $priKey = $this->rsaPrivateKey;
