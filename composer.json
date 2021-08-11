@@ -1,0 +1,20 @@
+{
+    "name": "ydg/alipay-sdk",
+    "type": "library",
+    "authors": [
+        {
+            "name": "ydg",
+            "email": "1028180290@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-simplexml": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AlipaySdk\\": "src/"
+        }
+    }
+}
