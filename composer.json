@@ -8,7 +8,15 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "ext-simplexml": "*",
+        "ext-openssl": "*",
+        "ext-bcmath": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-libxml": "*"
     },
     "license": "MIT",
     "autoload": {

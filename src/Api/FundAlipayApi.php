@@ -94,7 +94,7 @@ class FundAlipayApi extends BaseAlipayApi
         }
 
         if ($outBizNo) {
-            $params['out_biz_no	'] = $outBizNo;
+            $params['out_biz_no'] = $outBizNo;
         }
 
         if ($payFundOrderId) {
