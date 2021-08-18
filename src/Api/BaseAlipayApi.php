@@ -160,7 +160,7 @@ class BaseAlipayApi
      *
      * @return $this
      */
-    public function setDefaultErrMsg(string $errMsg)
+    public function setDefaultErrMsg($errMsg)
     {
         $this->defaultErrMsg = $errMsg;
 
@@ -194,12 +194,16 @@ class BaseAlipayApi
 
         $request->setBizContent($bizContent);
 
-        $result       = $this->aopClient->execute($request);
-        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
-        $resultCode   = $result->$responseNode->code;
+        try {
+            $result       = $this->aopClient->execute($request);
+            $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
+            $resultCode   = $result->$responseNode->code;
+        } catch (Exception $exception) {
+            throw $exception;
+        }
 
         if (empty($resultCode) || $resultCode != 10000) {
-            throw new Exception($result->$responseNode->sub_msg ?? $this->defaultErrMsg, 1001);
+            throw new Exception($result->$responseNode->sub_msg ?: $this->defaultErrMsg, 1001);
         }
 
         $this->resetDefaultErrMsg();

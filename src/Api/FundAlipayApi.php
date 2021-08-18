@@ -37,8 +37,8 @@ class FundAlipayApi extends BaseAlipayApi
      * @throws Exception
      */
     public function transfer(
-        string $outBizNo,
-        string $transAmount,
+        $outBizNo,
+        $transAmount,
         $identity = null,
         $name = null,
         $identityType = 'ALIPAY_LOGON_ID',
@@ -89,6 +89,8 @@ class FundAlipayApi extends BaseAlipayApi
     {
         $request = new AlipayFundTransCommonQueryRequest;
 
+        $params = [];
+
         if ($orderId) {
             $params['order_id'] = $orderId;
         }
@@ -109,7 +111,7 @@ class FundAlipayApi extends BaseAlipayApi
             $params['product_code'] = $productCode;
         }
 
-        return $this->setDefaultErrMsg('无此交易')->executeRequest($request, $params ?? []);
+        return $this->setDefaultErrMsg('无此交易')->executeRequest($request, $params);
     }
 
     /**
