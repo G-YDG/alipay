@@ -194,13 +194,14 @@ class BaseAlipayApi
 
         $request->setBizContent($bizContent);
 
-        try {
-            $result       = $this->aopClient->execute($request);
-            $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
-            $resultCode   = $result->$responseNode->code;
-        } catch (Exception $exception) {
-            throw $exception;
+        $result = $this->aopClient->execute($request);
+
+        if (!$result) {
+            throw new Exception($this->defaultErrMsg);
         }
+
+        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
+        $resultCode   = $result->$responseNode->code;
 
         if (empty($resultCode) || $resultCode != 10000) {
             throw new Exception($result->$responseNode->sub_msg ?: $this->defaultErrMsg, 1001);
