@@ -204,7 +204,7 @@ class BaseAlipayApi
         $resultCode   = $result->$responseNode->code;
 
         if (empty($resultCode) || $resultCode != 10000) {
-            throw new Exception($result->$responseNode->sub_msg ?: $this->defaultErrMsg, 1001);
+            throw new Exception($result->$responseNode->sub_msg ?: $this->defaultErrMsg, $resultCode ?: 1001);
         }
 
         $this->resetDefaultErrMsg();

@@ -53,7 +53,7 @@ class TradeAlipayApi extends BaseAlipayApi
             $params['query_options'] = $queryOptions;
         }
 
-        return $this->setDefaultErrMsg('无此交易')->executeRequest($request, $params);
+        return $this->executeRequest($request, $params);
     }
 
     /**
@@ -77,6 +77,6 @@ class TradeAlipayApi extends BaseAlipayApi
             'subject'      => $subject,
         ]);
 
-        return $this->setDefaultErrMsg('生成失败')->executeRequest($request, $params);
+        return $this->executeRequest($request, $params);
     }
 }

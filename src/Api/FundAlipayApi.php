@@ -70,7 +70,7 @@ class FundAlipayApi extends BaseAlipayApi
             'sign_data'         => $signData,
         ];
 
-        return $this->setDefaultErrMsg('转账失败')->executeRequest($request, $params);
+        return $this->executeRequest($request, $params);
     }
 
     /**
@@ -111,7 +111,7 @@ class FundAlipayApi extends BaseAlipayApi
             $params['product_code'] = $productCode;
         }
 
-        return $this->setDefaultErrMsg('无此交易')->executeRequest($request, $params);
+        return $this->executeRequest($request, $params);
     }
 
     /**

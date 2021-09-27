@@ -31,6 +31,6 @@ class BillAlipayApi extends BaseAlipayApi
             'bill_date' => $billDate,
         ];
 
-        return $this->setDefaultErrMsg('获取失败')->executeRequest($request, $params);
+        return $this->executeRequest($request, $params);
     }
 }
