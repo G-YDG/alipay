@@ -1,8 +1,6 @@
 <?php
 
 namespace AlipaySdk\Aop\Request;
-
-
 /**
  * ALIPAY API: alipay.fund.trans.common.query request
  *

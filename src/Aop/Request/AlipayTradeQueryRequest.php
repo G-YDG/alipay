@@ -1,8 +1,6 @@
 <?php
 
 namespace AlipaySdk\Aop\Request;
-
-
 /**
  * ALIPAY API: alipay.trade.query request
  *
@@ -13,6 +11,7 @@ class AlipayTradeQueryRequest
 {
     /**
      * 统一收单线下交易查询
+     * 修改路由策略到R
      **/
     private $bizContent;
 
