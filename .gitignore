@@ -1,1 +1,6 @@
-/vendor/
+.env
+.DS_Store
+.idea
+vendor/
+runtime/
+*.lock
