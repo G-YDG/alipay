@@ -180,6 +180,16 @@ class BaseAlipayApi
     }
 
     /**
+     * 获取请求处理器
+     *
+     * @return AopCertClient
+     */
+    public function getAopClient()
+    {
+        return $this->aopClient;
+    }
+
+    /**
      * 发起请求
      *
      * @param $request
@@ -210,5 +220,44 @@ class BaseAlipayApi
         $this->resetDefaultErrMsg();
 
         return $result->$responseNode;
+    }
+
+    /**
+     * 发起跳转类请求
+     *
+     * @param        $request
+     * @param        $params
+     * @param string $notifyUrl
+     * @param string $returnUrl
+     * @param string $httpMethod
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function pageExecute($request, $params, $notifyUrl = '', $returnUrl = '', $httpMethod = "POST")
+    {
+        $class = new \stdClass();
+
+        foreach ($params as $key => $param) {
+            $class->$key = $param;
+        }
+
+        $bizContent = json_encode($params);
+
+        $request->setBizContent($bizContent);
+
+        $request->setNotifyUrl($notifyUrl);
+
+        $request->setReturnUrl($returnUrl);
+
+        $result = $this->aopClient->pageExecute($request, $httpMethod);
+
+        if (!$result) {
+            throw new Exception($this->defaultErrMsg);
+        }
+
+        $this->resetDefaultErrMsg();
+
+        return $result;
     }
 }
