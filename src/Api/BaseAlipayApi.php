@@ -158,27 +158,27 @@ class BaseAlipayApi
             $this->aopClient->alipayrsaPublicKey = $this->alipayRsaPublicKey;
         }
 
-        if ($this->checkEmpty($this->alipayCertPath)) {
+        if (!$this->checkEmpty($this->alipayCertPath)) {
             //从支付宝公钥证书中提取公钥
             $this->aopClient->alipayrsaPublicKey = $this->aopClient->getPublicKey($this->alipayCertPath);
         }
 
-        if ($this->checkEmpty($this->appCertSN)) {
+        if (!$this->checkEmpty($this->appCertSN)) {
             //获取应用证书序列号
             $this->aopClient->appCertSN = $this->appCertSN;
         }
 
-        if ($this->checkEmpty($this->appCertPath)) {
+        if (!$this->checkEmpty($this->appCertPath)) {
             //从应用公钥证书中提取公钥
             $this->aopClient->appCertSN = $this->aopClient->getPublicKey($this->appCertPath);
         }
 
-        if ($this->checkEmpty($this->rootCertSN)) {
+        if (!$this->checkEmpty($this->rootCertSN)) {
             //获取支付宝根证书序列号
             $this->aopClient->alipayRootCertSN = $this->rootCertSN;
         }
 
-        if ($this->checkEmpty($this->rootCertPath)) {
+        if (!$this->checkEmpty($this->rootCertPath)) {
             //获取支付宝根证书序列号
             $this->aopClient->alipayRootCertSN = $this->rootCertPath;
         }
