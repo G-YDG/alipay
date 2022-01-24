@@ -51,6 +51,11 @@ class BaseAlipayApi
     public $rsaPrivateKeyFilePath;
 
     /**
+     * @var string 应用证书序列号
+     */
+    public $appCertSN;
+
+    /**
      * @var string 应用证书路径（要确保证书文件可读）
      */
     public $appCertPath;
@@ -59,6 +64,16 @@ class BaseAlipayApi
      * @var string 支付宝公钥证书路径（要确保证书文件可读）
      */
     public $alipayCertPath;
+
+    /**
+     * @var string 支付宝公钥
+     */
+    public $alipayRsaPublicKey;
+
+    /**
+     * @var string 支付宝根证书序列号
+     */
+    public $rootCertSN;
 
     /**
      * @var string 支付宝根证书路径（要确保证书文件可读）
@@ -97,7 +112,6 @@ class BaseAlipayApi
     public function setProperties($properties)
     {
         try {
-
             $class = new ReflectionClass($this);
 
             foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
@@ -110,11 +124,8 @@ class BaseAlipayApi
             }
 
             return $this;
-
         } catch (ReflectionException $e) {
-
             throw $e;
-
         }
     }
 
@@ -128,29 +139,80 @@ class BaseAlipayApi
 
         $this->aopClient->appId = $this->appId;
 
-        $this->aopClient->rsaPrivateKey = $this->rsaPrivateKey;
-
-        $this->aopClient->rsaPrivateKeyFilePath = $this->rsaPrivateKeyFilePath;
-
         $this->aopClient->format = $this->format;
 
         $this->aopClient->postCharset = $this->postCharset;
 
         $this->aopClient->signType = $this->signType;
 
-        //调用getPublicKey从支付宝公钥证书中提取公钥
-        $this->aopClient->alipayrsaPublicKey = $this->aopClient->getPublicKey($this->alipayCertPath);
+        // 应用私钥
+        $this->aopClient->rsaPrivateKey = $this->rsaPrivateKey;
 
-        //是否校验自动下载的支付宝公钥证书，如果开启校验要保证支付宝根证书在有效期内
-        $this->aopClient->isCheckAlipayPublicCert = true;
+        if (!$this->checkEmpty($this->rsaPrivateKeyFilePath)) {
+            // 应用私钥文件
+            $this->aopClient->rsaPrivateKeyFilePath = $this->rsaPrivateKeyFilePath;
+        }
 
-        //调用getCertSN获取证书序列号
-        $this->aopClient->appCertSN = $this->aopClient->getCertSN($this->appCertPath);
+        if (!$this->checkEmpty($this->alipayRsaPublicKey)) {
+            //支付宝公钥
+            $this->aopClient->alipayrsaPublicKey = $this->alipayRsaPublicKey;
+        }
 
-        //调用getRootCertSN获取支付宝根证书序列号
-        $this->aopClient->alipayRootCertSN = $this->aopClient->getRootCertSN($this->rootCertPath);
+        if ($this->checkEmpty($this->alipayCertPath)) {
+            //从支付宝公钥证书中提取公钥
+            $this->aopClient->alipayrsaPublicKey = $this->aopClient->getPublicKey($this->alipayCertPath);
+        }
+
+        if ($this->checkEmpty($this->appCertSN)) {
+            //获取应用证书序列号
+            $this->aopClient->appCertSN = $this->appCertSN;
+        }
+
+        if ($this->checkEmpty($this->appCertPath)) {
+            //从应用公钥证书中提取公钥
+            $this->aopClient->appCertSN = $this->aopClient->getPublicKey($this->appCertPath);
+        }
+
+        if ($this->checkEmpty($this->rootCertSN)) {
+            //获取支付宝根证书序列号
+            $this->aopClient->alipayRootCertSN = $this->rootCertSN;
+        }
+
+        if ($this->checkEmpty($this->rootCertPath)) {
+            //获取支付宝根证书序列号
+            $this->aopClient->alipayRootCertSN = $this->rootCertPath;
+        }
+
+        if (!$this->checkEmpty($this->aopClient->alipayRootCertSN)) {
+            //是否校验自动下载的支付宝公钥证书，如果开启校验要保证支付宝根证书在有效期内
+            $this->aopClient->isCheckAlipayPublicCert = true;
+        }
 
         return $this;
+    }
+
+    /**
+     * 校验是否非空
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    protected function checkEmpty($value)
+    {
+        if (!isset($value)) {
+            return true;
+        }
+
+        if ($value === null) {
+            return true;
+        }
+
+        if (trim($value) === "") {
+            return true;
+        }
+
+        return false;
     }
 
     /**
