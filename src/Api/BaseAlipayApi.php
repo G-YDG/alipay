@@ -170,7 +170,7 @@ class BaseAlipayApi
 
         if (!$this->checkEmpty($this->appCertPath)) {
             //从应用公钥证书中提取公钥
-            $this->aopClient->appCertSN = $this->aopClient->getPublicKey($this->appCertPath);
+            $this->aopClient->appCertSN = $this->aopClient->getCertSN($this->appCertPath);
         }
 
         if (!$this->checkEmpty($this->rootCertSN)) {
@@ -180,7 +180,7 @@ class BaseAlipayApi
 
         if (!$this->checkEmpty($this->rootCertPath)) {
             //获取支付宝根证书序列号
-            $this->aopClient->alipayRootCertSN = $this->rootCertPath;
+            $this->aopClient->alipayRootCertSN = $this->aopClient->getRootCertSN($this->rootCertPath);
         }
 
         if (!$this->checkEmpty($this->aopClient->alipayRootCertSN)) {
